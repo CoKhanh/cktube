@@ -1,33 +1,34 @@
-import ClickMe from "@/components/ClickMe";
+import ShareVideo from "@/components/ShareVideo";
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
 export default function Home() {
-  const [task, setTask] = useState([]);
+  const [videos, setVideos] = useState([]);
 
-  const tasks = async () => {
-    const response = await fetch("/api/tasks");
+  const allVideos = async () => {
+    const response = await fetch("/api/video/all");
     const data = await response.json(); // Parse the response as JSON
-    setTask(data.tasks);
+    setVideos(data.videos);
   }
 
   useEffect(() => {
-    const getTasks = async () => {
-      await tasks();
+    const loadData = async () => {
+      await allVideos();
     }
-    getTasks();
+    loadData();
   }, [])
 
   return (
-    <main
-      className={`flex min-h-screen flex-col items-center justify-between p-24 ${inter.className}`}
-    >
-      {task?.map(({ _id, text }) => (
-        <div key={_id}>{text}</div>
+    <main>
+      {videos?.map(({ _id, title, url }) => (
+        <div key={_id}>
+          <p>{title}</p>
+          <a>{url}</a>
+        </div>
       ))}
-      <ClickMe />
+      <ShareVideo />
     </main>
   );
 }
