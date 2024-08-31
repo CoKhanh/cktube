@@ -1,8 +1,6 @@
 import ShareVideo from "@/components/ShareVideo";
-import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
-
-const inter = Inter({ subsets: ["latin"] });
+import ReactPlayer from 'react-player'
 
 export default function Home() {
   const [videos, setVideos] = useState([]);
@@ -26,6 +24,7 @@ export default function Home() {
         <div key={_id}>
           <p>{title}</p>
           <a>{url}</a>
+          <ReactPlayer url={url} controls />
         </div>
       ))}
       <ShareVideo />
