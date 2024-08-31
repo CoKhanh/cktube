@@ -1,3 +1,4 @@
+import ClickMe from "@/components/ClickMe";
 import { Inter } from "next/font/google";
 import { useEffect, useState } from "react";
 
@@ -26,6 +27,7 @@ export default function Home() {
       {task?.map(({ _id, text }) => (
         <div key={_id}>{text}</div>
       ))}
+      <ClickMe />
     </main>
   );
 }
