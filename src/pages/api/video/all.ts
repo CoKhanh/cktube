@@ -2,10 +2,14 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { fetchQuery } from "convex/nextjs";
 import { api } from "../../../../convex/_generated/api";
 
-export default async function handler(
+export default async function allVideos(
   _req: NextApiRequest,
   res: NextApiResponse,
 ) {
-  const videos = await fetchQuery(api.videos.get);
-  res.status(200).json({ videos });
+  try {
+    const videos = await fetchQuery(api.videos.get);
+    res.status(200).json({ videos });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch videos" });
+  }
 };

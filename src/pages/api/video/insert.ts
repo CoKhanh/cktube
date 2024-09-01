@@ -3,14 +3,18 @@ import type { NextApiRequest, NextApiResponse } from 'next';
 import { api } from "../../../../convex/_generated/api"
 
 
-export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const { title, url, description } = req.body;
+export default async function insert(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    if (req.method === 'POST') {
+      const { title, url, description } = req.body;
 
-    const video = await fetchMutation(api.videos.insert, { title, url, description })
+      const video = await fetchMutation(api.videos.insert, { title, url, description });
 
-    return res.status(200).json(video);
-  } else {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+      res.status(200).json(video);
+    } else {
+      res.status(405).json({ message: 'Method Not Allowed' });
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Failed to insert video" });
   }
 }
