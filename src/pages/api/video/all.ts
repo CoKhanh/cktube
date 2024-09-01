@@ -3,7 +3,7 @@ import { fetchQuery } from "convex/nextjs";
 import { api } from "../../../../convex/_generated/api";
 
 export default async function allVideos(
-  _req: NextApiRequest,
+  _: NextApiRequest,
   res: NextApiResponse,
 ) {
   try {

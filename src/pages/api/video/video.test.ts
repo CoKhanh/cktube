@@ -27,7 +27,7 @@ const mockVideos: any = {
   ]
 };
 
-it('should return videos in JSON format with status 200', async () => {
+it("should return videos in JSON format with status 200", async () => {
   (fetchQuery as jest.Mock).mockResolvedValue(mockVideos);
 
   // Create mock request and response objects
@@ -42,7 +42,7 @@ it('should return videos in JSON format with status 200', async () => {
   expect(res.json).toHaveBeenCalledWith({ videos: mockVideos });
 });
 
-it('should return a 500 status and error message if fetchQuery fails', async () => {
+it("should return a 500 status and error message if fetchQuery fails", async () => {
   // Mock fetchQuery to throw an error
   (fetchQuery as jest.Mock).mockRejectedValue(new Error("Database error"));
 
@@ -59,7 +59,7 @@ it('should return a 500 status and error message if fetchQuery fails', async () 
   expect(res.json).toHaveBeenCalledWith({ error: "Failed to fetch videos" });
 });
 
-it('should insert a video and return it with status 200', async () => {
+it("should insert a video and return it with status 200", async () => {
   // Mock fetchMutation to return the inserted video
   const mockVideo = mockVideos.videos[0];
   (fetchMutation as jest.Mock).mockResolvedValue(mockVideo);
@@ -85,7 +85,7 @@ it('should insert a video and return it with status 200', async () => {
   expect(res.json).toHaveBeenCalledWith(mockVideo);
 });
 
-it('should return 405 if method is not POST', async () => {
+it("should return 405 if method is not POST", async () => {
   // Create mock request and response objects with a method other than POST
   const req = {
     method: 'GET',
@@ -102,7 +102,7 @@ it('should return 405 if method is not POST', async () => {
   expect(res.json).toHaveBeenCalledWith({ message: 'Method Not Allowed' });
 });
 
-it('should return a 500 status and error message if fetchMutation fails', async () => {
+it("should return a 500 status and error message if fetchMutation fails", async () => {
   // Mock fetchMutation to throw an error
   (fetchMutation as jest.Mock).mockRejectedValue(new Error("Database error"));
 

@@ -11,7 +11,12 @@ export const get = query({
 export const insert = mutation({
   args: { title: v.string(), url: v.string(), description: v.string() },
   handler: async (ctx, args) => {
-    const video = await ctx.db.insert("videos", { title: args.title, url: args.url, description: args.description });
-    return video;
+    const _id = await ctx.db.insert("videos", { title: args.title, url: args.url, description: args.description });
+    return {
+      _id,
+      title: args.title,
+      description: args.description,
+      url: args.url,
+    };
   },
 });
