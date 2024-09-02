@@ -1,7 +1,7 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import { fetchQuery, fetchMutation } from "convex/nextjs";
-import allVideos from "./all";
-import insert from "./insert";
+import allVideos from "../pages/api/video/all";
+import insert from "../pages/api/video/insert";
 
 jest.mock("convex/nextjs", () => ({
   fetchQuery: jest.fn(),
