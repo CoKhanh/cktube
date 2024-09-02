@@ -1,40 +1,33 @@
-// pages/api/auth/register.ts
-
 import type { NextApiRequest, NextApiResponse } from 'next';
 import bcrypt from 'bcryptjs';
+import { api } from "../../../../convex/_generated/api";
+import { fetchMutation, fetchQuery } from "convex/nextjs";
+import { User } from "./interface"
 
-interface User {
-  id: number;
-  username: string;
-  password: string;
-}
+export default async function register(req: NextApiRequest, res: NextApiResponse) {
+  try {
+    if (req.method === "POST") {
+      const { username, password } = req.body;
+  
+      const userExists = await fetchQuery(api.users.find, { username });
+      if (userExists) {
+        return res.status(400).json({ message: "User already exists" });
+      }
 
-// Simulated database (in-memory)
-const users: User[] = [];
+      const hashedPassword = bcrypt.hashSync(password, 10);
 
-export default function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (req.method === 'POST') {
-    const { username, password } = req.body;
+      const newUser: User = {
+        username,
+        password: hashedPassword,
+      };
 
-    // Check if the user already exists
-    const userExists = users.find(user => user.username === username);
-    if (userExists) {
-      return res.status(400).json({ message: 'User already exists' });
+      const userId = await fetchMutation(api.users.insert, newUser);
+
+      return res.status(200).json({ message: "User registered successfully", userId });
+    } else {
+      return res.status(405).json({ message: "Method Not Allowed" });
     }
-
-    // Hash the password
-    const hashedPassword = bcrypt.hashSync(password, 10);
-
-    // Create a new user and store in the "database"
-    const newUser: User = {
-      id: users.length + 1,
-      username,
-      password: hashedPassword,
-    };
-    users.push(newUser);
-
-    return res.status(201).json({ message: 'User registered successfully' });
-  } else {
-    return res.status(405).json({ message: 'Method Not Allowed' });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to register new user", message: error });
   }
 }
