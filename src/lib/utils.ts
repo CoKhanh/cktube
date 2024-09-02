@@ -7,8 +7,12 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function getYouTubeVideoId(url: string) {
-  const urlParams = new URLSearchParams(new URL(url).search);
-  return urlParams.get('v');
+  try {
+    const urlParams = new URLSearchParams(new URL(url).search);
+    return urlParams.get('v');
+  } catch (e) {
+    return null;
+  }
 }
 
 export function isValidYoutubeUrl(url: string): boolean {

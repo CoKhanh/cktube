@@ -60,6 +60,7 @@ it("should return token with status 200", async () => {
 
   expect(response.status).toBe(200);
   expect(data).toHaveProperty("token");
+  expect(data).toHaveProperty("message", "Login success");
 })
 
 it("should return Invalid username or password message with status 401 - wrong password", async () => {

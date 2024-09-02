@@ -25,6 +25,7 @@ it("should return a video object with status 200", async () => {
     title: "Sample Video",
     description: "Description",
     url: "https://www.youtube.com/watch?v=nSj5gHd6XFg",
+    publisher: "tester"
   }
   const response = await fetch("http://localhost:3000/api/video/insert", {
     method: "POST",

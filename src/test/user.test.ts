@@ -150,7 +150,7 @@ it("should login successfully and return a JWT token", async () => {
     { expiresIn: "1h" }
   );
   expect(res.status).toHaveBeenCalledWith(200);
-  expect(res.json).toHaveBeenCalledWith({ token: "mockedToken" });
+  expect(res.json).toHaveBeenCalledWith({ token: "mockedToken", "message": "Login success" });
 });
 
 it("should return 401 if user is not found", async () => {

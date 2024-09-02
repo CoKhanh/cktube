@@ -32,7 +32,7 @@ export default async function login(req: NextApiRequest, res: NextApiResponse) {
         expiresIn: '1h',
       });
   
-      return res.status(200).json({ token });
+      return res.status(200).json({ token, message: "Login success" });
     } else {
       return res.status(405).json({ message: "Method Not Allowed" });
     }

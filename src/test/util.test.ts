@@ -36,3 +36,10 @@ it("should return null video id", () => {
 
   expect(videoId).toEqual(null);
 })
+
+it("should return null video id - url without https://", () => {
+  const url = "youtube.com/watch?v=nSj5gHd6XFg";
+  const videoId = getYouTubeVideoId(url);
+
+  expect(videoId).toEqual(null);
+})
