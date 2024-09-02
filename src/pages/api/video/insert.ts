@@ -6,9 +6,9 @@ import { api } from "../../../../convex/_generated/api"
 export default async function insert(req: NextApiRequest, res: NextApiResponse) {
   try {
     if (req.method === 'POST') {
-      const { title, url, description } = req.body;
+      const { title, url, description, publisher } = req.body;
 
-      const video = await fetchMutation(api.videos.insert, { title, url, description });
+      const video = await fetchMutation(api.videos.insert, { title, url, description, publisher });
 
       res.status(200).json(video);
     } else {
