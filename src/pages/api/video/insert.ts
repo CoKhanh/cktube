@@ -10,11 +10,11 @@ export default async function insert(req: NextApiRequest, res: NextApiResponse) 
 
       const video = await fetchMutation(api.videos.insert, { title, url, description, publisher });
 
-      res.status(200).json(video);
+      res.status(200).json({ video, message: "Shared new video successfully"});
     } else {
-      res.status(405).json({ message: 'Method Not Allowed' });
+      res.status(405).json({ message: "Method Not Allowed" });
     }
   } catch (error) {
-    res.status(500).json({ error: "Failed to insert video" });
+    res.status(500).json({ message: "Failed to insert video" });
   }
 }

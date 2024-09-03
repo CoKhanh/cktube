@@ -6,12 +6,20 @@ import { Input } from "./ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
+import { useForm } from "react-hook-form";
+
+type SharedVideoData = {
+  url: string;
+}
 
 const ShareVideo = () => {
-  const [url, setUrl] = useState<string>('');
-  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const { register, handleSubmit, reset, watch } = useForm<SharedVideoData>();
+  const watchUrlData = watch("url");
 
-  const handleShare = async () => {
+  const { toast } = useToast();
+
+  const onSubmit = handleSubmit(async ({ url }) => {
     const isYoutubeUrl = isValidYoutubeUrl(url);
     const videoId = getYouTubeVideoId(url);
     if (!isYoutubeUrl || !videoId) {
@@ -22,6 +30,7 @@ const ShareVideo = () => {
       return;
     }
 
+    setIsLoading(true);
     const { items = []} = await getVideo(videoId);
 
     if (!items.length) {
@@ -29,6 +38,7 @@ const ShareVideo = () => {
         title: "Error",
         description: "Invalid YouTube URL"
       })
+      setIsLoading(false);
       return;
     }
 
@@ -48,25 +58,23 @@ const ShareVideo = () => {
       },
       body: JSON.stringify({ title, description, url, publisher }),
     });
-    const video = await response.json();
+    const data = await response.json();
+    const { message } = data;
+
     toast({
-      title: "Success",
-      description: "You shared new video",
+      title: response.status == 200 ? "Success" : "Error",
+      description: message,
     })
-  };
-
-  const handleChangeUrlInput = (e: ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value;
-
-    setUrl(val ?? "");
-  }
+    setIsLoading(false);
+    reset();
+  })
 
   return (
     <div className="sticky bottom-0 w-full bg-white">
-      <div className="w-1/2 flex flex-col gap-4 m-auto py-4">
-        <Input placeholder="paste youtube video url here" onChange={handleChangeUrlInput} />
-        <Button onClick={handleShare} className="w-full">Share</Button>
-      </div>
+      <form className="w-1/2 flex flex-col gap-4 m-auto py-4" onSubmit={onSubmit}>
+        <Input placeholder="paste youtube video url here" {...register("url")} required disabled={isLoading} />
+        <Button type="submit" className="w-full" disabled={watchUrlData?.length === 0 || isLoading}>Share</Button>
+      </form>
     </div>
   )
 }
