@@ -20,7 +20,7 @@ const VideosSpace = () => {
   }, [])
 
   return (
-    <div className="relative w-full h-screen pt-24 px-8 gap-6 flex flex-col">
+    <div className="relative w-full h-screen pt-20 md:pt-24 px-4 md:px-8 gap-6 flex flex-col">
       {videos?.map(({ _id, title, url, publisher }) => (
         <VideoShared key={_id} title={title} url={url} publisher={publisher || "Anonymous"} />
       ))}

@@ -71,7 +71,7 @@ const ShareVideo = () => {
 
   return (
     <div className="sticky bottom-0 w-full bg-white">
-      <form className="w-1/2 flex flex-col gap-4 m-auto py-4" onSubmit={onSubmit}>
+      <form className="w-full md:w-1/2 flex flex-col gap-4 m-auto py-4" onSubmit={onSubmit}>
         <Input placeholder="paste youtube video url here" {...register("url")} required disabled={isLoading} />
         <Button type="submit" className="w-full" disabled={watchUrlData?.length === 0 || isLoading}>Share</Button>
       </form>
