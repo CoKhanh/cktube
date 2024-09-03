@@ -35,3 +35,11 @@ export function generateRandomString(length: number = 8): string {
 
   return result;
 }
+
+export const normalizeCreationDate = (creationTime: number) => {
+  const date = new Date(creationTime);
+  const localDate = date.toLocaleDateString('vi-VN', { timeZone: 'UTC' });
+  const localTime = date.toLocaleTimeString('vi-VN', { timeZone: 'UTC' });
+
+  return `${localDate} ${localTime}`;
+}

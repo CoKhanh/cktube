@@ -7,6 +7,8 @@ import { useToast } from "@/hooks/use-toast";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import { useForm } from "react-hook-form";
+import { useMutation } from "convex/react";
+import { api } from "../../convex/_generated/api";
 
 type SharedVideoData = {
   url: string;
@@ -22,6 +24,7 @@ const ShareVideo = ({ refetchVideos }: ShareVideoProps) => {
   const watchUrlData = watch("url");
 
   const { toast } = useToast();
+  const notificationsMutation = useMutation(api.notifications.insert);
 
   const onSubmit = handleSubmit(async ({ url }) => {
     const token = localStorage.getItem("token") as string;
@@ -77,6 +80,13 @@ const ShareVideo = ({ refetchVideos }: ShareVideoProps) => {
     toast({
       title: response.status == 200 ? "Success" : "Error",
       description: message,
+    })
+
+    notificationsMutation({
+      url,
+      publisher,
+      description: `${title}`,
+      title: `${publisher} shared a new video`,
     })
 
     refetchVideos();

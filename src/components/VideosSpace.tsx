@@ -2,14 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import ShareVideo from "./ShareVideo";
 import VideoShared from "./VideoShared";
-
-const normalizeCreationDate = (creationTime: number) => {
-  const date = new Date(creationTime);
-  const localDate = date.toLocaleDateString('vi-VN', { timeZone: 'UTC' });
-  const localTime = date.toLocaleTimeString('vi-VN', { timeZone: 'UTC' });
-
-  return `${localDate} ${localTime}`;
-}
+import { normalizeCreationDate } from "@/lib/utils";
 
 const VideosSpace = () => {
   const [videos, setVideos] = useState([]);
@@ -17,8 +10,7 @@ const VideosSpace = () => {
   const allVideos = async () => {
     const response = await fetch("/api/video/all");
     const data = await response.json();
-    console.log('data: ', data);
-    setVideos(data.videos.reverse());
+    setVideos(data.videos);
   }
 
   useEffect(() => {
