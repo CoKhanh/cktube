@@ -6,9 +6,10 @@ export interface VideoSharedProps {
   url: string;
   title: string;
   publisher: string;
+  date: string;
 }
 
-const VideoShared = ({ url, title, publisher }: VideoSharedProps) => {
+const VideoShared = ({ url, title, publisher, date }: VideoSharedProps) => {
   return (
     <div className="w-full lg:m-auto flex flex-col md:flex-row gap-2">
       <div className="w-full">
@@ -19,6 +20,10 @@ const VideoShared = ({ url, title, publisher }: VideoSharedProps) => {
         <p>
           <span className="font-semibold">Shared by: </span>
           {publisher}
+        </p>
+        <p>
+          <span className="font-semibold">Published date: </span>
+          {date}
         </p>
         <Link href={url} target="_blank" className="text-blue-500">{url}</Link>
       </div>

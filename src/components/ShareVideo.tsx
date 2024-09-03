@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { Button } from "./ui/button";
 import { getYouTubeVideoId, isValidYoutubeUrl } from "@/lib/utils";
 import { getVideo } from "@/lib/youtube"
@@ -12,7 +12,11 @@ type SharedVideoData = {
   url: string;
 }
 
-const ShareVideo = () => {
+interface ShareVideoProps {
+  refetchVideos: () => Promise<void>;
+}
+
+const ShareVideo = ({ refetchVideos }: ShareVideoProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const { register, handleSubmit, reset, watch } = useForm<SharedVideoData>();
   const watchUrlData = watch("url");
@@ -20,6 +24,21 @@ const ShareVideo = () => {
   const { toast } = useToast();
 
   const onSubmit = handleSubmit(async ({ url }) => {
+    const token = localStorage.getItem("token") as string;
+    if (!token) {
+      toast({
+        title: "Oops..!",
+        description: "Login to share your video",
+        duration: 1500,
+      })
+      return;
+    }
+
+    const verifiedDecoded = jwtDecode(token) as JwtPayload & {
+      username: string
+    };
+    const { username: publisher } = verifiedDecoded;
+
     const isYoutubeUrl = isValidYoutubeUrl(url);
     const videoId = getYouTubeVideoId(url);
     if (!isYoutubeUrl || !videoId) {
@@ -45,12 +64,6 @@ const ShareVideo = () => {
     const { snippet } = items[0];
     const { title, description } = snippet;
 
-    const token = localStorage.getItem("token") as string;
-    const verifiedDecoded = jwtDecode(token) as JwtPayload & {
-      username: string
-    };
-    const { username: publisher } = verifiedDecoded;
-
     const response = await fetch("/api/video/insert", {
       method: 'POST',
       headers: {
@@ -65,6 +78,8 @@ const ShareVideo = () => {
       title: response.status == 200 ? "Success" : "Error",
       description: message,
     })
+
+    refetchVideos();
     setIsLoading(false);
     reset();
   })
