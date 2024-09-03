@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";
 import { useForm } from "react-hook-form";
@@ -32,7 +32,7 @@ const RegisterPage = () => {
       toast({
         title: data.message,
         description: "Redirect to Videos space",
-        duration: 1000
+        duration: 1500
       })
       // sign in
       const response = await fetch("/api/auth/login", {
@@ -66,9 +66,17 @@ const RegisterPage = () => {
     }
   })
 
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      router.push("/");
+    }
+  }, [])
+
   return (
     <div className="w-full h-screen flex justify-center items-center">
-      <form className="w-1/6 flex flex-col gap-4 text-center" onSubmit={onSubmit}>
+      <form className="w-full md:w-1/6 px-4 md:px-0 flex flex-col gap-4 text-center" onSubmit={onSubmit}>
         <p className="text-red-600 text-3xl font-bold">Welcome to RemiTube</p>
         <Input placeholder="username" required {...register("username")} />
         <Input placeholder="password" type="password" required {...register("password")} />

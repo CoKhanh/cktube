@@ -18,6 +18,11 @@ const Header = () => {
     router.push("/auth/login");
   }
 
+  const handleClickLogOut = () => {
+    localStorage.removeItem("token");
+    setLoggedIn(false);
+  }
+
   useEffect(() => {
     console.log("ting");
     const token = localStorage.getItem("token");
@@ -42,7 +47,10 @@ const Header = () => {
         <Button onClick={handleClickLogin}>Login</Button>
         <Button onClick={handleClickRetristration}>Registration</Button>
       </div>
-      <p className={cn("hidden text-sm", loggedin && "block")}>Welcome {username}</p>
+      <div className={cn("hidden gap-4 items-center", loggedin && "flex")}>
+        <p className="text-sm">Welcome {username}</p>
+        <Button onClick={handleClickLogOut}>Log out</Button>
+      </div>
     </header>
   );
 };

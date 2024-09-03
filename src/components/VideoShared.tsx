@@ -10,7 +10,7 @@ export interface VideoSharedProps {
 
 const VideoShared = ({ url, title, publisher }: VideoSharedProps) => {
   return (
-    <div className="w-full lg:m-auto flex gap-2">
+    <div className="w-full lg:m-auto flex flex-col md:flex-row gap-2">
       <div className="w-full">
         <ReactPlayer url={url} controls width={"100%"} />
       </div>
