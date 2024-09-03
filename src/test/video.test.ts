@@ -82,7 +82,7 @@ it("should insert a video and return it with status 200", async () => {
   await insert(req, res);
 
   expect(res.status).toHaveBeenCalledWith(200);
-  expect(res.json).toHaveBeenCalledWith(mockVideo);
+  expect(res.json).toHaveBeenCalledWith({ video: mockVideo, message: "Shared new video successfully" });
 });
 
 it("should return 405 if method is not POST", async () => {
@@ -124,6 +124,6 @@ it("should return a 500 status and error message if fetchMutation fails", async 
   await insert(req, res);
 
   expect(res.status).toHaveBeenCalledWith(500);
-  expect(res.json).toHaveBeenCalledWith({ error: "Failed to insert video" });
+  expect(res.json).toHaveBeenCalledWith({ message: "Failed to insert video" });
 });
 

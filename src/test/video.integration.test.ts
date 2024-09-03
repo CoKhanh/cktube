@@ -36,10 +36,15 @@ it("should return a video object with status 200", async () => {
   });
 
   const data = await response.json();
+  const { message, video } = data;
 
   expect(response.status).toBe(200);
-  expect(data).toHaveProperty("_id");
-  expect(data.title).toEqual(sampleVideo.title);
-  expect(data.description).toEqual(sampleVideo.description);
-  expect(data.url).toEqual(sampleVideo.url);
+  expect(data).toHaveProperty("video");
+  expect(data).toHaveProperty("message");
+  expect(message).toEqual("Shared new video successfully");
+
+  expect(video).toHaveProperty("_id");
+  expect(video.title).toEqual(sampleVideo.title);
+  expect(video.description).toEqual(sampleVideo.description);
+  expect(video.url).toEqual(sampleVideo.url);
 })
