@@ -22,7 +22,7 @@ const VideoShared = ({ url, title, publisher, date }: VideoSharedProps) => {
           {publisher}
         </p>
         <p>
-          <span className="font-semibold">Published date: </span>
+          <span className="font-semibold">Date: </span>
           {date}
         </p>
         <Link href={url} target="_blank" className="text-blue-500">{url}</Link>

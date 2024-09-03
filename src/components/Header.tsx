@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { cn } from "@/lib/utils";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
+import Notifications from "./Notifications";
 
 const Header = () => {
   const router = useRouter();
@@ -24,7 +25,6 @@ const Header = () => {
   }
 
   useEffect(() => {
-    console.log("ting");
     const token = localStorage.getItem("token");
 
     if (token) {
@@ -49,6 +49,7 @@ const Header = () => {
       </div>
       <div className={cn("hidden gap-4 items-center", loggedin && "flex")}>
         <p className="text-sm">Welcome {username}</p>
+        <Notifications />
         <Button onClick={handleClickLogOut}>Log out</Button>
       </div>
     </header>
