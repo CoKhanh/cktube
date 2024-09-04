@@ -28,19 +28,15 @@ const ShareVideo = ({ refetchVideos }: ShareVideoProps) => {
 
   const onSubmit = handleSubmit(async ({ url }) => {
     const token = localStorage.getItem("token") as string;
-    if (!token) {
-      toast({
-        title: "Oops..!",
-        description: "Login to share your video",
-        duration: 1500,
-      })
-      return;
-    }
+    let publisher = "Anonymous";
 
-    const verifiedDecoded = jwtDecode(token) as JwtPayload & {
-      username: string
-    };
-    const { username: publisher } = verifiedDecoded;
+    if (token) {
+      const verifiedDecoded = jwtDecode(token) as JwtPayload & {
+        username: string
+      };
+      const { username } = verifiedDecoded;
+      publisher = username;
+    }
 
     const isYoutubeUrl = isValidYoutubeUrl(url);
     const videoId = getYouTubeVideoId(url);
