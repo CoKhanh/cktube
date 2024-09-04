@@ -11,9 +11,14 @@ import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import { cn, normalizeCreationDate } from "@/lib/utils";
 import NotificationItem from "./NotificationItem";
+import { useEffect, useRef, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 const Notifications = () => {
   const notifications = useQuery(api.notifications.get);
+  const [firstLoadingItem, setFirstLoadingItem] = useState<boolean>(true);
+  const prevFilteredLength = useRef<number>(0);
+  const { toast } = useToast();
 
   // To filter notifications which is not published by current user
   const filterNotifications = () => {
@@ -28,6 +33,30 @@ const Notifications = () => {
     const { username: publisher } = verifiedDecoded;
     return notifications.filter(noti => noti.publisher !== publisher);
   }
+
+  // To handle popup a toast to noti new video shared
+  useEffect(() => {
+    if (notifications && firstLoadingItem) {
+      setFirstLoadingItem(false);
+      prevFilteredLength.current = filterNotifications().length;
+    }
+
+    if (notifications && !firstLoadingItem) {
+      const currentFilteredLength = filterNotifications().length;
+
+      // To check whether user receives a new notification
+      if (currentFilteredLength > prevFilteredLength.current) {
+        const lastestNotification = filterNotifications()[0];
+        toast({
+          title: lastestNotification.title,
+          description: lastestNotification.description,
+        })
+      }
+
+      // Update new notifications length into prev length
+      prevFilteredLength.current = currentFilteredLength;
+    }
+  }, [notifications])
 
   return (
     <>
