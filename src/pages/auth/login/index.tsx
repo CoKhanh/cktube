@@ -59,7 +59,7 @@ const LoginPage = () => {
   return (
     <div className="w-full h-screen flex justify-center items-center">
       <form className="w-full px-4 md:px-0 md:w-1/6 flex flex-col gap-4 text-center" onSubmit={onSubmit}>
-        <p className="text-red-600 text-3xl font-bold">Welcome to RemiTube</p>
+        <p className="text-red-600 text-3xl font-bold">Welcome to CKTube</p>
         <Input placeholder="username" required {...register("username")} />
         <Input placeholder="password" type="password" required {...register("password")} />
         <Button type="submit">Sign in</Button>
