@@ -5,6 +5,7 @@ import { cn } from "@/lib/utils";
 import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import Notifications from "./Notifications";
+import { LogOut, Youtube } from "lucide-react";
 
 const Header = () => {
   const router = useRouter();
@@ -42,7 +43,10 @@ const Header = () => {
     <header
       className="fixed top-0 w-full h-fit px-4 md:px-8 py-4 md:py-5 bg-white text-xl flex justify-between gap-2 items-center shadow z-10"
     >
-      <p className="text-red-500 font-extrabold text-2xl">RemiTube</p>
+      <div className="flex items-center gap-2">
+        <Youtube className="text-red-500" />
+        <p className="text-black font-extrabold text-2xl">CKTube</p>
+      </div>
       <div className={cn("flex gap-4 pt-2", loggedin && "hidden")}>
         <Button onClick={handleClickLogin}>Login</Button>
         <Button onClick={handleClickRetristration}>Registration</Button>
@@ -50,7 +54,8 @@ const Header = () => {
       <div className={cn("hidden gap-4 items-center", loggedin && "flex")}>
         <p className="text-sm">Welcome {username}</p>
         <Notifications />
-        <Button onClick={handleClickLogOut}>Log out</Button>
+        <Button onClick={handleClickLogOut} className="hidden md:block">Log out</Button>
+        <LogOut onClick={handleClickLogOut} className="block md:hidden text-black" />
       </div>
     </header>
   );
