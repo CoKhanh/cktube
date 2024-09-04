@@ -38,8 +38,8 @@ export function generateRandomString(length: number = 8): string {
 
 export const normalizeCreationDate = (creationTime: number) => {
   const date = new Date(creationTime);
-  const localDate = date.toLocaleDateString('vi-VN', { timeZone: 'UTC' });
-  const localTime = date.toLocaleTimeString('vi-VN', { timeZone: 'UTC' });
+  const localDate = date.toLocaleDateString('vi-VN');
+  const localTime = date.toLocaleTimeString('vi-VN');
 
   return `${localDate} ${localTime}`;
 }
