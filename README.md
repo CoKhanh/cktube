@@ -30,11 +30,11 @@ Follow the steps below to install and configure the project on your local machin
 1. **Clone the project repository**:
    - Using HTTPS:  
      ```bash
-     git clone https://github.com/CoKhanh/remitano.git
+     git clone https://github.com/CoKhanh/cktube.git
      ```
    - Using SSH:  
      ```bash
-     git clone git@github.com:CoKhanh/remitano.git
+     git clone git@github.com:CoKhanh/cktube.git
      ```
 
 2. **Navigate to the project directory**:  
