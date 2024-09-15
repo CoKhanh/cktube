@@ -6,6 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { JwtPayload } from "jsonwebtoken";
 import Notifications from "./Notifications";
 import { LogOut, Youtube } from "lucide-react";
+import Link from "next/link";
 
 const Header = () => {
   const router = useRouter();
@@ -53,6 +54,7 @@ const Header = () => {
       </div>
       <div className={cn("hidden gap-4 items-center", loggedin && "flex")}>
         <p className="text-sm">Welcome {username}</p>
+        <Link href={"/liked"} className="text-sm">Liked Videos</Link>
         <Notifications />
         <Button onClick={handleClickLogOut} className="hidden md:block">Log out</Button>
         <LogOut onClick={handleClickLogOut} className="block md:hidden text-black" />

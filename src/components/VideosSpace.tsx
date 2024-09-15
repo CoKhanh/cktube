@@ -22,6 +22,7 @@ const VideosSpace = () => {
       {videos?.map(({ _id, title, url, publisher, _creationTime }) => (
         <VideoShared
           key={_id}
+          videoID={_id}
           title={title}
           url={url}
           publisher={publisher || "Anonymous"}
