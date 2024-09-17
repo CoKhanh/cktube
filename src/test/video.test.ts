@@ -127,3 +127,56 @@ it("should return a 500 status and error message if fetchMutation fails", async 
   expect(res.json).toHaveBeenCalledWith({ message: "Failed to insert video" });
 });
 
+it("Should return videos list with status 200", async () => {
+  (fetchQuery as jest.Mock).mockResolvedValue(mockVideos);
+
+  const req = {} as NextApiRequest;
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn()
+  } as unknown as NextApiResponse
+
+  await allVideos(req, res);
+
+  expect(res.status).toHaveBeenCalledWith(200)
+  expect(res.json).toHaveBeenCalledWith({ videos: mockVideos })
+})
+
+it ("Should not return videos list with status 500", async () => {
+  (fetchQuery as jest.Mock).mockRejectedValue(new Error("Database error"))
+
+  const req = {} as NextApiRequest;
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn()
+  } as unknown as NextApiResponse
+
+  await allVideos(req, res);
+
+  expect(res.status).toHaveBeenCalledWith(500)
+  expect(res.json).toHaveBeenCalledWith({ error: "Failed to fetch videos" })
+})
+
+it("Should return video inserted with status 200", async () => {
+  const mockVideo = mockVideos.videos[0];
+  (fetchMutation as jest.Mock).mockResolvedValue(mockVideo);
+  const req = {
+    method: 'POST',
+    body: {
+      title: mockVideo.title,
+      url: mockVideo.url,
+      description: mockVideo.description,
+      publisher: "User"
+    }
+  } as NextApiRequest
+
+  const res = {
+    status: jest.fn().mockReturnThis(),
+    json: jest.fn()
+  } as unknown as NextApiResponse
+
+  await insert(req, res);
+
+  expect(res.status).toHaveBeenCalledWith(200);
+  expect(res.json).toHaveBeenCalledWith({ video: mockVideo, message: "Shared new video successfully" })
+})
